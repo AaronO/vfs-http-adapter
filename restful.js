@@ -154,7 +154,7 @@ module.exports = function setup(mount, vfs, mountOptions) {
         if (meta.hasOwnProperty('stream')) {
           meta.stream.on("error", abort);
           if (options.encoding === null) {
-            var base = 
+            var base =
                 req.restBase ||
                 (req.socket.encrypted ? "https://" : "http://") + req.headers.host + pathJoin(mount, path);
             jsonEncoder(meta.stream, base).pipe(res);
@@ -177,13 +177,13 @@ module.exports = function setup(mount, vfs, mountOptions) {
     else if (req.method === "PUT") {
 
       if (path[path.length - 1] === "/") {
-        vfs.mkdir(path, {}, function (err, meta) {
+        vfs.mkdir(path, { parents: true }, function (err, meta) {
           if (err) return abort(err);
           res.end();
         });
       } else {
 
-        vfs.mkfile(path, { stream: req }, function (err, meta) {
+        vfs.mkfile(path, { stream: req, parents: true }, function (err, meta) {
           if (err) return abort(err);
           res.end();
         });
