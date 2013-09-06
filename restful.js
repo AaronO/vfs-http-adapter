@@ -192,12 +192,14 @@ module.exports = function setup(mount, vfs, mountOptions) {
 
     else if (req.method === "DELETE") {
       var command;
+      var _options = {};
       if (path[path.length - 1] === "/") {
         command = vfs.rmdir;
+        _options.recursive = true;
       } else {
         command = vfs.rmfile;
       }
-      command(path, {}, function (err, meta) {
+      command(path, _options, function (err, meta) {
         if (err) return abort(err);
         res.end();
       });
