@@ -206,9 +206,11 @@ module.exports = function setup(mount, vfs, mountOptions) {
     } // end DELETE request
 
     else if (req.method === "POST") {
+      var contentType = req.headers["content-type"];
+      var isMultipart = Boolean(contentType) && contentType.indexOf('multipart') === 0;
 
-      if (path[path.length - 1] === "/") {
-        var contentType = req.headers["content-type"];
+      // File upload
+      if (path[path.length - 1] === "/" && isMultipart) {
         if (!contentType) {
           return abort(new Error("Missing Content-Type header"), 400);
         }
