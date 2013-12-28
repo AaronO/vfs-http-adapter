@@ -163,7 +163,9 @@ module.exports = function setup(mount, vfs, mountOptions) {
           }
           req.on("close", function () {
             if (meta.stream.readable) {
-              meta.stream.destroy();
+              if(meta.stream.destroy) {
+                meta.stream.destroy();
+              }
               meta.stream.readable = false;
             }
           })
